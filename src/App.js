@@ -1,26 +1,78 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { withRouter, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { Alert } from "@material-ui/lab";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { history } from "./store/configureStore";
+import { routing } from "./constants";
+import { alertActions } from "./actions/";
+
+import Main from "./views/Main";
+import Registration from "./views/Registration";
+import Transaction from "./views/Transaction";
+import Header from "./containers/Header";
+
+import "./App.css";
+
+const routes = [
+  {
+    path: routing.main,
+    exact: true,
+    Component: Main,
+  },
+  {
+    path: routing.registration,
+    Component: Registration,
+  },
+  {
+    path: routing.transaction,
+    Component: Transaction,
+  },
+];
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    history.listen((location, action) => {
+      this.props.clearAlerts();
+    });
+  }
+
+  render() {
+    const { location } = history,
+      { alert } = this.props;
+
+    return (
+      <div className="App">
+        <Header />
+
+        {alert.message && (
+          <Alert className="alert" severity="error">
+            {alert.message}
+          </Alert>
+        )}
+        <Switch location={location}>
+          {routes.map(({ path, Component, exact = false }) => (
+            <Route
+              key={path}
+              exact={exact}
+              path={path}
+              component={(props) => <Component routePath={path} {...props} />}
+            />
+          ))}
+        </Switch>
+      </div>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps({ alert }) {
+  return { alert };
+}
+
+const actionCreators = {
+  clearAlerts: alertActions.clear,
+};
+
+export default withRouter(connect(mapStateToProps, actionCreators)(App));
