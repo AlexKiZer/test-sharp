@@ -7,6 +7,7 @@ export const userService = {
     getTransactionList,
     getUsers,
     sendTransaction,
+    logout,
 };
 
 function login(email, password) {
@@ -24,6 +25,10 @@ function login(email, password) {
 
             return user;
         });
+}
+
+function logout() {
+    localStorage.removeItem("user");
 }
 
 function userToken(token) {

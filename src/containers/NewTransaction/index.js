@@ -19,7 +19,7 @@ class NewTransaction extends Component {
         let user = JSON.parse(localStorage.getItem("user"));
 
         if (user) {
-            this.props.getUsers({ filter: "k" }, user.id_token);
+            this.props.getUsers({ filter: " " }, user.id_token);
         }
     }
 

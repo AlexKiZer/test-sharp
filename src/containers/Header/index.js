@@ -4,6 +4,9 @@ import Link from "@material-ui/core/Link";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import TypoGraphy from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import { spacing } from "@material-ui/system";
 
 import { routing } from "../../constants";
 import { userActions } from "../../actions";
@@ -17,17 +20,29 @@ class Header extends Component {
         }
     }
     render() {
-        const { userData } = this.props;
+        const { userData, logout } = this.props;
 
         return (
             <header>
                 <AppBar color="primary" position="static">
                     <Toolbar align="right">
                         {userData.name ? (
-                            <TypoGraphy
-                                variant="body1"
-                                color="inherit"
-                            >{`${userData.name} balance:${userData.balance}`}</TypoGraphy>
+                            <Grid container direction="row" alignItems="center">
+                                <TypoGraphy
+                                    variant="body1"
+                                    color="inherit"
+                                >{`${userData.name} balance:${userData.balance}`}</TypoGraphy>
+                                <Box ml={2}>
+                                    <Link
+                                        component="span"
+                                        variant="body1"
+                                        color="inherit"
+                                        onClick={logout}
+                                    >
+                                        <span>Logout</span>
+                                    </Link>
+                                </Box>
+                            </Grid>
                         ) : (
                             <Link
                                 href={routing.main}
@@ -50,6 +65,7 @@ function mapStateToProps({ userData }) {
 
 const actionCreators = {
     userToken: userActions.userToken,
+    logout: userActions.logout,
 };
 
 export default connect(mapStateToProps, actionCreators)(Header);

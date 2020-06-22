@@ -17,6 +17,8 @@ export function userData(state = initialState, action) {
       };
     case userConstants.LOGIN_TOKEN_FAILURE:
       return {};
+    case userConstants.LOGIN_TOKEN_LOGOUT:
+      return {};
     default:
       return state;
   }

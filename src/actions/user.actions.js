@@ -10,6 +10,8 @@ export const userActions = {
     getTransactionList,
     getUsers,
     sendTransaction,
+    userService,
+    logout,
 };
 
 function login(email, password) {
@@ -38,6 +40,13 @@ function login(email, password) {
     function failure(error) {
         return { type: userConstants.LOGIN_FAILURE, error };
     }
+}
+
+function logout() {
+    userService.logout();
+    history.push(routing.main);
+
+    return { type: userConstants.LOGIN_TOKEN_LOGOUT };
 }
 
 function userToken(token) {
