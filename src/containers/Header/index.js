@@ -6,7 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import TypoGraphy from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import { spacing } from "@material-ui/system";
 
 import { routing } from "../../constants";
 import { userActions } from "../../actions";
